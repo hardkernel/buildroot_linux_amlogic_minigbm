@@ -23,19 +23,10 @@ static const uint32_t render_target_formats[] = { DRM_FORMAT_ARGB8888, DRM_FORMA
 
 static int amlogic_init(struct driver *drv)
 {
-	struct format_metadata metadata;
-
-	metadata.tiling = 0;
-	metadata.priority = 1;
-	metadata.modifier = DRM_FORMAT_MOD_LINEAR;
-
 	drv_add_combinations(drv, render_target_formats, ARRAY_SIZE(render_target_formats),
-			     &metadata, BO_USE_RENDER_MASK);
+			      &LINEAR_METADATA, BO_USE_RENDER_MASK);
 
-	drv_modify_combination(drv, DRM_FORMAT_XRGB8888, &metadata, BO_USE_CURSOR | BO_USE_SCANOUT);
-	drv_modify_combination(drv, DRM_FORMAT_ARGB8888, &metadata, BO_USE_CURSOR | BO_USE_SCANOUT);
-
-	return 0;
+	return drv_modify_linear_combinations(drv);
 }
 
 static bool has_modifier(const uint64_t *list, uint32_t count, uint64_t modifier)
