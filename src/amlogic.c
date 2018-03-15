@@ -13,6 +13,7 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <xf86drm.h>
+#include <inttypes.h>
 
 #include "drv_priv.h"
 #include "helpers.h"
@@ -86,7 +87,7 @@ static int amlogic_bo_create_with_modifiers(struct bo *bo, uint32_t width, uint3
 	ret = drmIoctl(bo->drv->fd, DRM_IOCTL_MESON_GEM_CREATE, &gem_create);
 
 	if (ret) {
-		fprintf(stderr, "drv: DRM_IOCTL_MESON_GEM_CREATE failed (size=%lu)\n",
+		fprintf(stderr, "drv: DRM_IOCTL_MESON_GEM_CREATE failed (size=%"PRIu64")\n",
 			gem_create.size);
 		return ret;
 	}
